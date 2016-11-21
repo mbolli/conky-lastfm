@@ -5,12 +5,14 @@ import sys
 import requests
 import re
 
-url = "http://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=bolley&api_key=72e587c20e12492921c40e268fa4160a&format=json&limit=1"
+url = "http://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=bolley&api_key=YOUR_API_KEY&format=json&limit=1"
 feed = requests.get(url);
 if not feed.status_code == requests.codes.ok:
 	print "Error fetching last.fm feed"
 	exit()
 json = feed.json()['recenttracks']['track'][0]
 output = '{} – {}' . format(json['artist']['#text'].encode('utf-8'), json['name'].encode('utf-8'))
+
+# make a line break every 38 characters
 print re.sub('(.{38})', '\\1 ⏎\n   ', output, 0, re.DOTALL)
 
